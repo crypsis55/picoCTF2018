@@ -1,0 +1,302 @@
+Start working throught the problems
+
+Q1. Forensics Warmup 1. Can you unzip this file for me and retreive the flag?
+download from link --> https://2018shell.picoctf.com/static/2fa508658d91918514dadf3ff331b8f6/flag.zip
+unzip with winzip, 7zip or windows
+open flag.jpg --> read picoCTF{welcome_to_forensics}
+
+Q2. Forensics Warmup 2. Hmm for some reason I can't open this PNG? Any ideas?
+download flag.png --> https://2018shell.picoctf.com/static/032d65124629e45f0b5151aad4e7b5b1/flag.png
+thumbnail shows its a picture similar to Q1 I would guess this was supposed to be more difficult
+open in multi-format picture viewer --> read flag picoCTF{extensions_are_a_lie}
+
+Q3. General Warm-up 1. If I told you your grade was 0x41 in hexadecimal, what would it be in ASCII?
+find a hexadecimal to ASCII converter https://www.rapidtables.com/convert/number/hex-to-ascii.html
+input hexadecimal [0x41] output ASCII [A]
+picoCTF{A}
+
+Q4. General Warm-up 2. Can you convert the number 27 (base 10) to binary (base 2)?
+find a decimal to binary converter https://www.rapidtables.com/convert/number/index.html
+input decimal [27] output binary [11011]
+picoCTF[11011]
+
+Q5. General Warm-up 3. What is 0x3D (base 16) in decimal (base 10)?
+find a hexadecimal to decimal converter
+input hexadecimal [0x3D] output decimal [61]
+picoCTF{61}
+
+Q6. Resources. We put together a bunch of resources to help you out on our website! If you go over there, you might 
+even find a flag! https://picoctf.com/resources (link)follow link browse page --> answer near the bottom
+picoCTF{xiexie_ni_lai_zheli}
+
+Q7. Reversing Warm-up 1. Throughout your journey you will have to run many programs. Can you navigate to /problems/reversing-warmup-1_2_a237211c4be8902c67102f827027e633 on the shell server and run this program to retreive the flag?
+
+Q8. Reversing Warm-up 2. Can you decode the following string dGg0dF93NHNfczFtcEwz from base64 format to ASCII?
+google decrypt base64 to ASCII https://www.base64decode.org/
+paste in the string [dGg0dF93NHNfczFtcEwz]
+decode --> th4t_w4s_s1mpL3
+picoCTF{th4t_w4s_s1mpL3}
+
+Q9. Crypto Warm-up 1. Crpyto can often be done by hand, here's a message you got from a friend, llkjmlmpadkkc with the 
+key of thisisalilkey. Can you use this table to solve it?
+google decrypt message with key and table --> https://www.dcode.fr/vigenere-cipher
+input cyphertext [llkjmlmpadkkc] input key [thisisalilkey] output decrypted [secretmessage]
+picoCTF{SECRETMESSAGE} hint: use caps
+
+Q10. Crypto Warm-up 2. Cryptography doesn't have to be complicated, have you ever heard of something called rot13? cvpbPGS{guvf_vf_pelcgb!}
+google rot13 decrypt https://www.rot13.com/
+input string [cvpbPGS{guvf_vf_pelcgb!}] output [picoCTF{this_is_crypto!}]
+
+Q11. grep 1. Can you find the flag in file? This would be really obnoxious to look through by hand, see if you can find a faster way. You can also find the file in /problems/grep-1_3_8d9cff3d178c231ab735dfef3267a1c2 on the shell server.
+cd /problems/grep-1_3_8d9cff3d178c231ab735dfef3267a1c2
+ls
+grep 'picoCTF' file
+picoCTF{grep_and_you_will_find_cdf2e7c2}
+
+ref https://ryanstutorials.net/linuxtutorial/grep.php
+
+Q12. Net cat. Using netcat (nc) will be a necessity throughout your adventure. Can you connect to 2018shell.picoctf.com at port 49387 to get the flag?
+open terminal at https://2018game.picoctf.com/shell
+enter user and password
+nc 2018shell.picoctf.com 49387
+picoCTF{NEtcat_iS_a_NEcESSiTy_8b6a1fbc}
+
+Q13. HEEEEEEERE'S Johnny! Okay, so we found some important looking files on a linux computer. Maybe they can be used to get a password to the process. Connect with nc 2018shell.picoctf.com 35225. Files can be found here: passwd shadow.
+hint: If at first you don't succeed, try, try again. And again. And again.
+If you're not careful these kind of problems can really "rockyou".
+pretty much telling you to use John the ripper and the rockyou word-list to crack the shadow file password
+from passwd root:x:0:0:root:/root:/bin/bash
+so we know the username=root:password=x(meaning stored in shadow file) Numeric User Id=0 Numeric Group ID=0 Users home directory=/root Users Shell=/bin/bash
+ref https://www.tldp.org/LDP/lame/LAME/linux-admin-made-easy/shadow-file-formats.html
+from the shadow file root:$6$IGI9prWh$ZHToiAnzeD1Swp.zQzJ/Gv.iViy39EmjVsg3nsZlfejvrAjhmp5jY.1N6aRbjFJVQX8hHmTh7Oly3NzogaH8c1:17770:0:99999:7:::
+username=root password=$6$IGI9prWh$ZHToiAnzeD1Swp.zQzJ/Gv.iViy39EmjVsg3nsZlfejvrAjhmp5jY.1N6aRbjFJVQX8hHmTh7Oly3NzogaH8c1 
+number of days (since Jan, 1 1970) since the password has been changed=17770 
+number of days before password can be changed=0 (can be changed anytime)
+number of days after which password must be changed=99999
+number of days to warm user of an expiring password=7
+the rest of the values are empty
+
+fire up Kali VM
+copy passwd and shadow
+unshadow passwd shadow > crackme.txt
+john --wordlist=/usr/share/wordlists/rockyou.txt crackme.txt
+Created directory: /root/.john
+Warning: detected hash type "sha512crypt", but the string is also recognized as "crypt"
+Use the "--format=crypt" option to force loading these as that type instead
+Using default input encoding: UTF-8
+Loaded 1 password hash (sha512crypt, crypt(3) $6$ [SHA512 128/128 AVX 2x])
+fopen: /usr/share/wordlists/rockyou.txt: No such file or directory
+Whoops! navigate to /usr/share/wordlists unzip rockyou.txt.gz
+
+try again john --wordlist=/usr/share/wordlists/rockyou.txt crackme.txt
+Warning: detected hash type "sha512crypt", but the string is also recognized as "crypt"
+Use the "--format=crypt" option to force loading these as that type instead
+Using default input encoding: UTF-8
+Loaded 1 password hash (sha512crypt, crypt(3) $6$ [SHA512 128/128 AVX 2x])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+password1        (root)
+1g 0:00:00:00 DONE (2019-02-04 07:34) 4.761g/s 304.7p/s 304.7c/s 304.7C/s 123456..charlie
+Use the "--show" option to display all of the cracked passwords reliably
+Session completed
+john --show crackme.txt
+root:password1:0:0:root:/root:/bin/bash
+username=root password=password1
+
+in the web shell
+nc 2018shell.picoctf.com 35225
+enter username=root password=password1
+picoCTF{J0hn_1$_R1pp3d_99c35524}
+ref https://null-byte.wonderhowto.com/how-to/crack-shadow-hashes-after-getting-root-linux-system-0186386/
+
+Q14. Strings Can you find the flag in this file without actually running it? You can also find the file in /problems/strings_1_c7bac958dd6a4b695dc72446d8014f59 on the shell server.
+cd /problems/strings_1_c7bac958dd6a4b695dc72446d8014f59
+strings --all strings | grep picoCFT
+picoCTF{sTrIngS_sAVeS_Time_d7c8de6c}
+ref https://linux.die.net/man/1/strings
+
+Q15. Pipe During your adventure, you will likely encounter a situation where you need to process data that you receive over the network rather than through a file. Can you find a way to save the output from this program and search for the flag? Connect with 2018shell.picoctf.com 37542.
+nc 2018shell.picoctf.com 37542 | grep 'picoCTF'
+ref http://www.linfo.org/pipes.html
+
+Q16. Inspect me. Inpect this code! http://2018shell.picoctf.com:56252 (link)
+either curl http://2018shell.picoctf.com:56252
+or open page in browser
+open dev tools
+inspect element --> <!-- I learned HTML! Here's part 1/3 of the flag: picoCTF{ur_4_real_1nspe -->
+inspect mycss.css --> /* I learned CSS! Here's part 2/3 of the flag: ct0r_g4dget_9dd3b33c} */
+inspect myjs.js --> /* I learned JavaScript! Here's part 3/3 of the flag:  */
+assemble answer picoCTF{ur_4_real_1nspect0r_g4dget_9dd3b33c}
+
+Q17. grep2. This one is a little bit harder. Can you find the flag in /problems/grep-2_0_783d3e2c8ea2ebd3799ca6a5d28fc742/files on the shell server? Remember, grep is your friend.
+cd /problems/grep-2_0_783d3e2c8ea2ebd3799ca6a5d28fc742/files
+iterate through folders files0-9
+till i got to /problems/grep-2_0_783d3e2c8ea2ebd3799ca6a5d28fc742/files/files7
+grep 'picoCTF' file*
+returns picoCTF{grep_r_and_you_will_find_24c911ab}
+
+Q18. Aca-Shell-A. It's never a bad idea to brush up on those linux skills or even learn some new ones before you set off on this adventure! Connect with nc 2018shell.picoctf.com 42334.
+echo 'Help Me!'
+You got this! Have you looked for any  directories?
+ls
+cd secret
+Now we are cookin'! Take a look around there and tell me what you find!
+ls
+Sabatoge them! Get rid of all their intel files!
+rm intel*
+Nice! Once they are all gone, I think I can drop you a file of an exploit
+echo 'Drop it in!'
+I placed a file in the executables folder as it looks like the only place we can execute from!
+Run the script I wrote to have a little more impact on the system!
+cd ..
+cd executables
+ls
+./dontLookHere
+Looking through the text above, I think I have found the password. I am just having trouble with a username.
+Oh drats! They are onto us! we could get kicked out soon!
+Quick! Print the username to the screen so we can close are backdoor and log into the account directly!
+whoami
+Perfect! One second!
+Okay, I think I have got what we are looking for. I just need to to copy the file to a place we can read.
+Try copying the file called TopSecret in tmp directory into the passwords folder.
+cp /tmp/TopSecret passwords
+Server shutdown in 10 seconds...                                                                              
+Quick! go read the file before we lose our connection!
+cd ..
+cd passwords
+cat TopSecret
+Major General John M. Schofield's graduation address to the graduating class of 1879 at West Point is as follo
+ws: The discipline which makes the soldiers of a free country reliable in battle is not to be gained by harsh 
+or tyrannical treatment.On the contrary, such treatment is far more likely to destroy than to make an army.It 
+is possible to impart instruction and give commands in such a manner and such a tone of voice as to inspire in
+ the soldier no feeling butan intense desire to obey, while the opposite manner and tone of voice cannot fail 
+to excite strong resentment and a desire to disobey.The one mode or other of dealing with subordinates springs
+ from a corresponding spirit in the breast of the commander.He who feels the respect which is due to others, c
+annot fail to inspire in them respect for himself, while he who feels,and hence manifests disrespect towards o
+thers, especially his subordinates, cannot fail to inspire hatred against himself.                            
+picoCTF{CrUsHeD_It_d6f202f1}
+
+Q19. Client Side is Still Bad. I forgot my password again, but this time there doesn't seem to be a reset, can you help me? http://2018shell.picoctf.com:8249 (link)
+open the link in a browser
+inspect source
+<script type="text/javascript">
+  function verify() {
+    checkpass = document.getElementById("pass").value;
+    split = 4;
+    if (checkpass.substring(split*7, split*8) == '}') {
+      if (checkpass.substring(split*6, split*7) == '17e9') {
+        if (checkpass.substring(split*5, split*6) == 'd_91') {
+         if (checkpass.substring(split*4, split*5) == 's_ba') {
+          if (checkpass.substring(split*3, split*4) == 'nt_i') {
+            if (checkpass.substring(split*2, split*3) == 'clie') {
+              if (checkpass.substring(split, split*2) == 'CTF{') {
+                if (checkpass.substring(0,split) == 'pico') {
+                  alert("You got the flag!")
+                  }
+                }
+              }
+      
+            }
+          }
+        }
+      }
+    }
+    else {
+      alert("Incorrect password");
+from this part of the code "You got the flag!" and 'pico' standout assemble the whole string to form flag
+picoCTF{client_is_bad_9117e9}
+
+Q20. Desrouleaux. Our network administrator is having some trouble handling the tickets for all of of our incidents. Can you help him out by answering all the questions? Connect with nc 2018shell.picoctf.com 10493. incidents.json
+download incidents.json
+open in text editor
+connect in shell nc 2018shell.picoctf.com 10493
+complete questions checking answers from incidents.json
+picoCTF{J4y_s0n_d3rUUUULo_a062e5f8}
+
+Q21. Logon. I made a website so now you can log on to! I don't seem to have the admin password. See if you can't get to the flag. http://2018shell.picoctf.com:6153
+try login as admin password admin --> this password is super secure no way you are getting in that way
+try login as test password test --> success not admin though. No flag for you
+hints: Hmm it doesn't seem to check anyone's password, except for admins? How does check the admin's password?
+right click inspect --> application then cookies on drop down
+__cfduid	dd1f6e1273b7b89d3929fb51ff20546431549371497	.getbootstrap.com	/	2020-02-05T12:58:16.265Z	51	✓	✓		
+_ga	GA1.2.399669907.1549273790	.picoctf.com	/	2021-02-04T12:28:32.000Z	29				
+_gid	GA1.2.1499366387.1549273790	.picoctf.com	/	2019-02-06T12:28:32.000Z	31				
+admin	False	2018shell.picoctf.com	/	1969-12-31T23:59:59.000Z	10				
+password	test	2018shell.picoctf.com	/	1969-12-31T23:59:59.000Z	12				
+username	test	2018shell.picoctf.com	/	1969-12-31T23:59:59.000Z	12
+can see admin with value False
+open cookie editor extension
+set False to True
+reload the page and it returns the flag
+picoCTF{l0g1ns_ar3nt_r34l_82e795f4}
+
+Q22. Reading Between the Eyes. Stego-Saurus hid a message for you in this image, can you retreive it?
+download husky.png
+attempted to play with various filters in microsoft photo and 3d paint to no result
+found https://incoherency.co.uk/image-steganography/#unhide tried applying various hidden bit filters with no success
+next tried https://www.mobilefish.com/services/steganography/steganography.php
+downloaded and installed openstego gave an error message
+finally found https://29a.ch/photo-forensics/
+uploaded image and went through the options till string extraction caught my eye
+still no luck
+went to not http://stylesuxx.github.io/steganography/ decode image --> after a long wait
+picoCTF{r34d1ng_b37w33n_7h3_by73s}
+
+Q23. Recovering From the Snap. There used to be a bunch of animals here, what did Dr. Xernon do to them?
+target file is animals.dd
+.dd so time to fire up a SIFT VM
+
+
+Q24. admin panel. We captured some traffic logging into the admin panel, can you find the password?
+
+Q25. assembly-0. What does asm0(0xc9,0xb0) return? Submit the flag as a hexadecimal value (starting with '0x'). NOTE: Your submission for this question will NOT be in the normal flag format. Source located in the directory at /problems/assembly-0_4_0f197369bfc00a9211504cf65ac31994.
+
+Q26. buffer overflow 0. Let's start off simple, can you overflow the right buffer in this program to get the flag? You can also find it in /problems/buffer-overflow-0_4_ab1efebbee9446039487c64b88d38631 on the shell server.
+
+Q27. caesar cipher 1. This is one of the older ciphers in the books, can you decrypt the message? You can find the ciphertext in /problems/caesar-cipher-1_2_73ab1c3e92ea50396ad143ca48039b86 on the shell server.
+
+Q28. environ. Sometimes you have to configure environment variables before executing a program. Can you find the flag we've hidden in an environment variable on the shell server?
+
+Q29. hertz. Here's another simple cipher for you where we made a bunch of substitutions. Can you decrypt it? Connect with nc 2018shell.picoctf.com 14928.
+
+Q30. hex editor. This cat has a secret to teach you. You can also find the file in /problems/hex-editor_1_10cafee5618ce2cfe32f2188ca1f472e on the shell server.
+
+Q31. ssh-keyz. As nice as it is to use our webshell, sometimes its helpful to connect directly to our machine. To do so, please add your own public key to ~/.ssh/authorized_keys, using the webshell. The flag is in the ssh banner which will be displayed when you login remotely with ssh to with your username.
+
+Q32. Irish Name Repo. There is a website running at http://2018shell.picoctf.com:11899 (link). Do you think you can log us in? Try to see if you can login!
+
+Q33. Mr. Robots. Do you see the same things I see? The glimpses of the flag hidden away? http://2018shell.picoctf.com:60945 (link)
+
+Q34. Truly an Artist. Can you help us find the flag in this Meta-Material? You can also find the file in /problems/truly-an-artist_1_59a330544b5c06946dfb0617b1c13330.
+
+Q35. be-quick-or-be-dead-1. You find this when searching for some music, which leads you to be-quick-or-be-dead-1. Can you run it fast enough? You can also find the executable in /problems/be-quick-or-be-dead-1_2_83a2a5193f0340b364675a2f0cc4d71e.
+
+Q36. leak-me. Can you authenticate to this service and get the flag? Connect with nc 2018shell.picoctf.com 38315.
+
+Q37. now you don't. We heard that there is something hidden in this picture. Can you find it?
+download nowyoudont.png
+try in https://incoherency.co.uk/image-steganography/#unhide found answer with default 1 hidden bit filter
+picoCTF{n0w_y0u_533_m3}
+
+Q38. shellcode. This program executes any input you give it. Can you get a shell? You can find the program in /problems/shellcode_2_0caa0f1860741079dd0a66ccf032c5f4 on the shell server.
+
+Q39. what base is this? To be successful on your mission, you must be able read data represented in different ways, such as hexadecimal or binary. Can you get the flag from this program to prove you are ready? Connect with nc 2018shell.picoctf.com 14390.
+
+Q40. you can't see me. '...reading transmission... Y.O.U. .C.A.N.'.T. .S.E.E. .M.E. ...transmission ended...' Maybe something lies in /problems/you-can-t-see-me_1_a7045a1e39ce834c26556a81c2b3a74f. 
+
+Q41. Buttons. There is a website running at http://2018shell.picoctf.com:18342 (link). Try to see if you can push their buttons.
+
+Q42. absolutely relative. In a filesystem, everything is relative ¯\_(ツ)_/¯. Can you find a way to get a flag from this program? You can find it in /problems/absolutely-relative_1_15eb86fcf5d05ec169cc417d24e02c87 on the shell server. 
+
+Q43. got-2-learn-libc. This program gives you the address of some system calls. Can you get a shell? You can find the program in /problems/got-2-learn-libc_2_2d4a9f3ed6bf71e90e938f1e020fb8ee on the shell server.
+
+Q44. rsa-madlibs. We ran into some weird puzzles we think may mean something, can you help me solve one? Connect with nc 2018shell.picoctf.com 36186
+
+Q45. in out error. Can you utlize stdin, stdout, and stderr to get the flag from this program? You can also find it in /problems/in-out-error_3_9eb10797d687f70cfce62e7c9c2bdea6 on the shell server
+
+Q46. Artisinal Handcrafted HTTP 3. We found a hidden flag server hiding behind a proxy, but the proxy has some... _interesting_ ideas of what qualifies someone to make HTTP requests. Looks like you'll have to do this one by hand. Try connecting via nc 2018shell.picoctf.com 18685, and use the proxy to send HTTP requests to `flag.local`. We've also recovered a username and a password for you to use on the login page: `realbusinessuser`/`potoooooooo`.
+
+Q47. echooo This program prints any input you give it. Can you leak the flag? Connect with nc 2018shell.picoctf.com 46960.
+
+Q48. got-shell? Can you authenticate to this service and get the flag? Connect to it with nc 2018shell.picoctf.com 54664.
+
+Q49. LoadSomeBits. Can you find the flag encoded inside this image? You can also find the file in /problems/loadsomebits_3_8933ebe9085168b1e0bbb07884c2231f on the shell server.
